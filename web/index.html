@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Digital Doubt Tracker - Track, Resolve & Learn">
+    <title>Digital Doubt Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- 3D Animated Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- ==================== LOGIN PAGE ==================== -->
+    <div id="loginPage" class="page auth-page active">
+        <div class="auth-card animate-scale">
+            <div class="auth-header">
+                <div class="auth-logo">🎓</div>
+                <h1>Digital Doubt Tracker</h1>
+                <p>Track, Resolve & Learn</p>
+            </div>
+            <div class="auth-body">
+                <h2>Welcome Back</h2>
+                <p class="auth-desc">Sign in to your account</p>
+
+                <div id="loginError" class="error-banner hidden">
+                    <span class="error-icon">⚠️</span>
+                    <span id="loginErrorText"></span>
+                </div>
+
+                <label class="form-label">I am a:</label>
+                <div class="role-selector">
+                    <div class="role-option active" onclick="selectRole(this, 'student')">
+                        <span class="role-icon">🎓</span>
+                        <span>Student</span>
+                    </div>
+                    <div class="role-option" onclick="selectRole(this, 'teacher')">
+                        <span class="role-icon">👨‍🏫</span>
+                        <span>Teacher</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="loginPassword" class="form-control"
+                            placeholder="Enter your password">
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block btn-glow" onclick="performLogin()">
+                    <span>Sign In</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <p class="auth-footer-text">
+                    New student? <button class="btn-link" onclick="showPage('registerPage')">Create Account</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== REGISTER PAGE ==================== -->
+    <div id="registerPage" class="page auth-page">
+        <div class="auth-card animate-scale">
+            <div class="auth-header accent-header">
+                <div class="auth-logo">📝</div>
+                <h1>Create Account</h1>
+                <p>Join as a Student</p>
+            </div>
+            <div class="auth-body">
+                <h2>Registration</h2>
+                <p class="auth-desc">Fill in your details below</p>
+
+                <div id="regError" class="error-banner hidden">
+                    <span class="error-icon">⚠️</span>
+                    <span id="regErrorText"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="regName" class="form-control" placeholder="Enter your full name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="regEmail" class="form-control" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="regPassword" class="form-control" placeholder="Create a password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔐</span>
+                        <input type="password" id="regConfirm" class="form-control" placeholder="Confirm your password">
+                    </div>
+                </div>
+                <button class="btn btn-accent btn-block btn-glow" onclick="performRegister()">
+                    <span>Create Account</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <p class="auth-footer-text">
+                    Already have an account? <button class="btn-link" onclick="showPage('loginPage')">Sign In</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STUDENT DASHBOARD ==================== -->
+    <div id="studentPage" class="page dashboard">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🎓</span>
+                <span class="brand-text">DoubtTracker</span>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section-label">MENU</div>
+                <div class="nav-item active" onclick="switchSection('student', 'overview', this)">
+                    <span class="nav-icon">📊</span><span>Overview</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('student', 'myDoubts', this)">
+                    <span class="nav-icon">📋</span><span>My Doubts</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('student', 'addDoubt', this)">
+                    <span class="nav-icon">➕</span><span>Submit Doubt</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar">S</div>
+                    <div class="user-info">
+                        <span id="sidebarStudentName" class="user-name">Student</span>
+                        <span class="user-role">Student</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h2>Welcome back, <span id="studentNameDisplay" class="highlight-name"></span> 👋</h2>
+                </div>
+                <span class="role-badge student-badge">STUDENT</span>
+            </div>
+            <div class="content">
+                <div id="student-overview" class="content-section active">
+                    <h2 class="section-title"><span class="title-icon">📊</span> Dashboard Overview</h2>
+                    <div id="studentStats" class="stats-grid"></div>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3><span class="title-icon">📌</span> Recent Doubts</h3>
+                        </div>
+                        <div id="studentRecentTable"></div>
+                    </div>
+                </div>
+                <div id="student-myDoubts" class="content-section">
+                    <h2 class="section-title"><span class="title-icon">📋</span> My Doubts</h2>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>All Submitted Doubts</h3>
+                            <div class="header-actions">
+                                <select id="studentFilterStatus" class="filter-select" onchange="loadStudentDoubts()">
+                                    <option value="All">All Status</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Resolved">Resolved</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="studentDoubtsTable"></div>
+                    </div>
+                    <p class="hint-text">💡 Click a doubt to view its response</p>
+                </div>
+                <div id="student-addDoubt" class="content-section">
+                    <h2 class="section-title"><span class="title-icon">➕</span> Submit a New Doubt</h2>
+                    <div class="form-card">
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <select id="doubtSubject" class="form-control">
+                                <option value="">-- Select Subject --</option>
+                                <option>Mathematics</option>
+                                <option>Physics</option>
+                                <option>Chemistry</option>
+                                <option>Biology</option>
+                                <option>Computer Science</option>
+                                <option>English</option>
+                                <option>History</option>
+                                <option>Geography</option>
+                                <option>Economics</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Your Doubt</label>
+                            <textarea id="doubtText" class="form-control" rows="6"
+                                placeholder="Describe your doubt in detail..."></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-glow" onclick="submitDoubt()">📤 Submit Doubt</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TEACHER DASHBOARD ==================== -->
+    <div id="teacherPage" class="page dashboard">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🎓</span>
+                <span class="brand-text">DoubtTracker</span>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section-label">MENU</div>
+                <div class="nav-item active" onclick="switchSection('teacher', 'overview', this)">
+                    <span class="nav-icon">📊</span><span>Overview</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('teacher', 'pending', this)">
+                    <span class="nav-icon">⏳</span><span>Pending Doubts</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('teacher', 'allDoubts', this)">
+                    <span class="nav-icon">📋</span><span>All Doubts</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar teacher-avatar">T</div>
+                    <div class="user-info">
+                        <span id="sidebarTeacherName" class="user-name">Teacher</span>
+                        <span class="user-role">Teacher</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h2>Welcome back, <span id="teacherNameDisplay" class="highlight-name"></span> 👋</h2>
+                </div>
+                <span class="role-badge teacher-badge">TEACHER</span>
+            </div>
+            <div class="content">
+                <div id="teacher-overview" class="content-section active">
+                    <h2 class="section-title"><span class="title-icon">📊</span> Teacher Overview</h2>
+                    <div id="teacherStats" class="stats-grid"></div>
+                </div>
+                <div id="teacher-pending" class="content-section">
+                    <h2 class="section-title"><span class="title-icon">⏳</span> Pending Doubts</h2>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>Doubts Awaiting Response</h3>
+                            <button class="btn btn-ghost btn-sm" onclick="loadTeacherDoubts('Pending')">🔄
+                                Refresh</button>
+                        </div>
+                        <div id="teacherPendingTable"></div>
+                    </div>
+                    <p class="hint-text">💡 Click a doubt to respond</p>
+                </div>
+                <div id="teacher-allDoubts" class="content-section">
+                    <h2 class="section-title"><span class="title-icon">📋</span> All Doubts</h2>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>All Student Doubts</h3>
+                            <select id="teacherFilterStatus" class="filter-select" onchange="loadTeacherAllDoubts()">
+                                <option value="All">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <div id="teacherAllTable"></div>
+                    </div>
+                    <p class="hint-text">💡 Click a doubt to respond</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ADMIN DASHBOARD ==================== -->
+    <div id="adminPage" class="page dashboard">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🎓</span>
+                <span class="brand-text">DoubtTracker</span>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section-label">ADMIN</div>
+                <div class="nav-item active" onclick="switchSection('admin', 'overview', this)">
+                    <span class="nav-icon">📊</span><span>Overview</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('admin', 'doubts', this)">
+                    <span class="nav-icon">📋</span><span>All Doubts</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('admin', 'teachers', this)">
+                    <span class="nav-icon">👨‍🏫</span><span>Teachers</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('admin', 'students', this)">
+                    <span class="nav-icon">🎓</span><span>Students</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar admin-avatar">A</div>
+                    <div class="user-info">
+                        <span id="sidebarAdminName" class="user-name">Admin</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h2>Welcome back, <span id="adminNameDisplay" class="highlight-name"></span> 👋</h2>
+                </div>
+                <span class="role-badge admin-badge">ADMIN</span>
+            </div>
+            <div class="content">
+                <div id="admin-overview" class="content-section active">
+                    <h2 class="section-title"><span class="title-icon">📊</span> System Overview</h2>
+                    <div id="adminStats" class="stats-grid"></div>
+                </div>
+                <div id="admin-doubts" class="content-section">
+                    <h2 class="section-title"><span class="title-icon">📋</span> All Doubts</h2>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>System-wide Doubts</h3>
+                            <select id="adminFilterStatus" class="filter-select" onchange="loadAdminDoubts()">
+                                <option value="All">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <div id="adminDoubtsTable"></div>
+                    </div>
+                </div>
+                <div id="admin-teachers" class="content-section">
+                    <div class="section-header-row">
+                        <h2 class="section-title"><span class="title-icon">👨‍🏫</span> Manage Teachers</h2>
+                        <button class="btn btn-accent btn-glow" onclick="showAddTeacherModal()">➕ Add Teacher</button>
+                    </div>
+                    <div class="table-card">
+                        <div id="adminTeachersTable"></div>
+                    </div>
+                </div>
+                <div id="admin-students" class="content-section">
+                    <h2 class="section-title"><span class="title-icon">🎓</span> Registered Students</h2>
+                    <div class="table-card">
+                        <div id="adminStudentsTable"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: Doubt Detail ==================== -->
+    <div id="doubtModal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+        <div class="modal animate-scale">
+            <div class="modal-header">
+                <h3 id="modalTitle">📝 Doubt Details</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: Add Teacher ==================== -->
+    <div id="addTeacherModal" class="modal-overlay" onclick="if(event.target===this)closeTeacherModal()">
+        <div class="modal animate-scale">
+            <div class="modal-header">
+                <h3>➕ Add New Teacher</h3>
+                <button class="modal-close" onclick="closeTeacherModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" id="newTeacherName" class="form-control" placeholder="Teacher name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <input type="text" id="newTeacherSubject" class="form-control" placeholder="Subject">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="newTeacherEmail" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="newTeacherPassword" class="form-control" placeholder="Password">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-accent" onclick="addTeacher()">Add Teacher</button>
+                    <button class="btn btn-ghost" onclick="closeTeacherModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
