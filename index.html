@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Resources Hub</title>
+    <meta name="description" content="A curated directory of the best educational platforms and tools.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1>Edu<span class="highlight">Hub</span></h1>
+            <p>Your ultimate directory for modern learning platforms & resources</p>
+            <div class="search-container">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search for a skill, app, or category...">
+            </div>
+        </header>
+
+        <section id="categoriesGrid" class="grid">
+            <!-- Cards will be injected dynamically by JavaScript -->
+        </section>
+        
+        <div id="noResults" class="hidden">
+            <div class="empty-state">
+                <i class="fa-regular fa-face-frown"></i>
+                <p>No resources found matching your search. Try another term!</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
